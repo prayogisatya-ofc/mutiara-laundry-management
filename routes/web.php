@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashierController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TransactionController;
@@ -40,4 +41,11 @@ Route::middleware('auth')->group(function(){
     Route::post('/users/{user}', [UserController::class, 'update'])->name('user_update');
     
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transaction_list');
+    Route::get('/transactions/print', [TransactionController::class, 'print_list'])->name('transaction_print_list');
+    Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transaction_destroy');
+    Route::get('/transactions/{transaction}', [TransactionController::class, 'edit'])->name('transaction_edit');
+    Route::post('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transaction_update');
+
+    Route::get('/cashier', [CashierController::class, 'index'])->name('cashier_list');
+    Route::get('/cashier/get-packages', [CashierController::class, 'get_packages'])->name('cashier_get_packages');
 });

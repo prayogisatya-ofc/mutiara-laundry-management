@@ -11,34 +11,50 @@
         </div>
     @endif
 
-    <div class="card mb-4">
+    <div class="card mb-3">
         <div class="card-header">
             <div class="row justify-content-between align-items-end">
-                <div class="col-lg-4 mb-3 mb-lg-0">
-                    <form action="{{ route('package_list') }}" method="get">
-                        <label class="form-label">Cari</label>
-                        <input type="search" class="form-control" placeholder="Apa yang anda cari?" name="search" value="{{ $search }}">
+                <div class="col-lg-9">
+                    <form action="{{ route('transaction_list') }}" method="get" class="row justify-content-between align-items-end">
+                        <div class="col-lg-3 mb-3 mb-lg-0">
+                            <label class="form-label">No. Invoice</label>
+                            <input type="search" class="form-control" name="search" value="{{ $search }}" placeholder="Cari...">
+                        </div>
+                        <div class="col-lg-3 mb-3 mb-lg-0">
+                            <label class="form-label">Dari</label>
+                            <input type="date" class="form-control" name="start" value="{{ $start }}">
+                        </div>
+                        <div class="col-lg-3 mb-3 mb-lg-0">
+                            <label class="form-label">Sampai</label>
+                            <input type="date" class="form-control" name="end" value="{{ $end }}">
+                        </div>
+                        <div class="col-lg-3 mb-3 mb-lg-0">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
                     </form>
                 </div>
-                <div class="col-lg-8">
-                    <a href="{{ route('package_create') }}" class="btn btn-primary d-flex align-items-center float-start float-lg-end">
-                        <i class="bx bx-plus me-2"></i>
-                        <span>Tambah Paket</span>
-                    </a>
+                <div class="col-lg-3">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center float-start float-lg-end" onclick="location.href = '/transactions/print?start={{ $start }}&end={{ $end }}'">
+                        <i class="bx bx-printer me-2 ms-n1"></i>
+                        <span>Cetak</span>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="card mb-4">
         <div class="card-body">
             <div class="table-responsive mb-3">
-                <table class="table table-bordered w-100">
+                <table class="table w-100">
                     <thead>
                         <tr>
                             <th class="text-center">No</th>
                             <th>No. Invoice</th>
                             <th>Nama Member</th>
-                            <th>Dibuat Pada</th>
-                            <th>Status Laundry</th>
-                            <th>Status Pembayaran</th>
+                            <th class="text-center">Dibuat Pada</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Pembayaran</th>
                             <th>Total Bayar</th>
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -47,8 +63,9 @@
                         @forelse ($data as $d)
                             <tr>
                                 <td class="text-center">{{ $loop->index + 1 }}</td>
+                                <td>#{{ $d->invoice }}</td>
                                 <td>{{ $d->member->name }}</td>
-                                <td>{{ $d->created_at }}</td>
+                                <td class="text-center">{{ $d->created_at->format('d-m-Y') }}</td>
                                 @php($status = [
                                     'process' => [
                                         'color' => 'warning', 
@@ -63,26 +80,26 @@
                                         'text' => 'Diambil'
                                     ]
                                 ][$d->status])
-                                <td>
-                                    <span class="badge badge-{{ $status['color'] }}">{{ $status['text'] }}</span>
+                                <td class="text-center">
+                                    <span class="badge bg-label-{{ $status['color'] }}">{{ $status['text'] }}</span>
                                 </td>
                                 @php($payment = [
                                     'unpaid' => [
-                                        'color' => 'warning', 
+                                        'color' => 'danger', 
                                         'text' => 'Belum Dibayar'
                                     ],
                                     'paid' => [
                                         'color' => 'success',
-                                        'text' => 'DIbayar'
+                                        'text' => 'Dibayar'
                                     ]
                                 ][$d->payment])
-                                <td>
-                                    <span class="badge badge-{{ $payment['color'] }}">{{ $payment['text'] }}</span>
+                                <td class="text-center">
+                                    <span class="badge bg-label-{{ $payment['color'] }}">{{ $payment['text'] }}</span>
                                 </td>
-                                <td>Rp {{ number_format($d->getTotal, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($d->getTotal(), 0, ',', '.') }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('transaction_detail', $d->id) }}" class="btn btn-sm btn-primary me-2"><i class="bx bx-show"></i></a>
+                                        <a href="{{ route('transaction_edit', $d->id) }}" class="btn btn-sm btn-primary me-2"><i class="bx bx-show"></i></a>
                                         <form action="{{ route('transaction_destroy', $d->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -100,7 +117,7 @@
                 </table>
             </div>
             <div>
-                {{ $data->appends(['search' => $search])->links() }}
+                {{ $data->appends(['start' => $start, 'end' => $end, 'search' => $search])->links() }}
             </div>
         </div>
     </div>

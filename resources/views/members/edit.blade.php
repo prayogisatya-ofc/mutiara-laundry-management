@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Data Member /</span> Edit Member</h4>
+        <h4 class="fw-bold py-3 mb-1"><span class="text-muted fw-light">Data Member /</span> Edit Member</h4>
+
+        <a href="{{ route('member_list') }}" class="btn btn-primary mb-3 d-inline-flex align-items-center"><i class="bx bx-chevron-left me-2 ms-n1"></i>Kembali</a>
 
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible mb-3" role="alert">
@@ -44,7 +46,7 @@
                             </div>
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="me-2 btn btn-primary">Simpan</button>
+                                    <button type="submit" class="me-2 btn btn-primary d-inline-flex align-items-center"><i class="bx bx-save me-2 ms-n1"></i>Simpan</button>
                                 </div>
                             </div>
                         </form>

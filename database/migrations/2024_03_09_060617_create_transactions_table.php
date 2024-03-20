@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
+            $table->string('invoice');
             $table->foreignId('member_id');
             $table->enum('status', ['process', 'done', 'taken']);
             $table->enum('payment', ['unpaid', 'paid']);

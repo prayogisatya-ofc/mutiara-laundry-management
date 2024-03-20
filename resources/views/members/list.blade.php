@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <div class="card mb-4">
+    <div class="card mb-3">
         <div class="card-header">
             <div class="row justify-content-between align-items-end">
                 <div class="col-lg-4 mb-3 mb-lg-0">
@@ -22,15 +22,18 @@
                 </div>
                 <div class="col-lg-8">
                     <a href="{{ route('member_create') }}" class="btn btn-primary d-flex align-items-center float-start float-lg-end">
-                        <i class="bx bx-plus me-2"></i>
+                        <i class="bx bx-plus me-2 ms-n1"></i>
                         <span>Tambah Member</span>
                     </a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="card mb-4">
         <div class="card-body">
             <div class="table-responsive mb-3">
-                <table class="table table-bordered w-100">
+                <table class="table w-100">
                     <thead>
                         <tr>
                             <th class="text-center">No</th>

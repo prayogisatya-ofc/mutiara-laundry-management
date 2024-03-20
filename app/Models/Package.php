@@ -11,7 +11,7 @@ class Package extends Model
 
     protected $guarded = ['id'];
 
-    public function detail_transaction(){
-        return $this->belongsTo(DetailTransaction::class);
+    public function detail_transactions(){
+        return $this->hasMany(DetailTransaction::class);
     }
 }

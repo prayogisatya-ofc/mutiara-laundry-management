@@ -16,6 +16,6 @@ class DetailTransaction extends Model
     }
 
     public function package(){
-        return $this->hasOne(Package::class);
+        return $this->belongsTo(Package::class);
     }
 }

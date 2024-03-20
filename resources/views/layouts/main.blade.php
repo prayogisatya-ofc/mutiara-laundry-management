@@ -118,7 +118,7 @@
                     </li>
 
                     <li class="menu-item {{ $title == 'Kasir' ? 'active' : '' }}">
-                        <a href="{{ route('dashboard') }}" class="menu-link">
+                        <a href="{{ route('cashier_list') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-desktop"></i>
                             <div>Kasir</div>
                         </a>
@@ -307,6 +307,7 @@
 
     <!-- Page JS -->
     <script src="/assets/js/dashboards-analytics.js"></script>
+    <script src="/assets/js/ui-popover.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
