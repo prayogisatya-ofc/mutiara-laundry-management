@@ -6,7 +6,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="{{ route('transaction_list') }}" class="btn btn-primary mb-3 d-inline-flex align-items-center"><i class="bx bx-chevron-left me-2 ms-n1"></i>Kembali</a>
-            <a href="{{ route('transaction_list') }}" class="btn btn-primary mb-3 d-inline-flex align-items-center"><i class="bx bx-printer me-2 ms-n1"></i>Cetak</a>
+            <a href="{{ route('transaction_print_single', $transaction->id) }}" class="btn btn-primary mb-3 d-inline-flex align-items-center"><i class="bx bx-printer me-2 ms-n1"></i>Cetak</a>
         </div>
 
         @if (session('success'))
@@ -53,13 +53,13 @@
                             <div class="row">
                                 <label class="col-6">Dibuat pada</label>
                                 <div class="col-6 text-end">
-                                    <p>{{ $transaction->created_at->format('d-m-Y') }}</p>
+                                    <p>{{ $transaction->created_at->format('d/m/Y') }}</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <label class="col-6">Akan diambil</label>
                                 <div class="col-6 text-end">
-                                    <p>{{ $transaction->date_taken }}</p>
+                                    <p>{{ $transaction->date_taken_formated }}</p>
                                 </div>
                             </div>
                             <div class="row">

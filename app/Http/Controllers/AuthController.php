@@ -43,8 +43,8 @@ class AuthController extends Controller
             'profit' => $profit,
             'transaction_done' => Transaction::where('status', 'done')->orWhere('status', 'taken')->count(),
             'transactions_process' => Transaction::where('status', 'process')->count(),
-            'transactions_today' => Transaction::where('created_at', $today)->count(),
-            'data' => Transaction::where('created_at', $today)->latest()->get()
+            'transactions_today' => Transaction::whereDate('created_at', $today)->count(),
+            'data' => Transaction::whereDate('created_at', $today)->limit(5)->latest()->get(),
         ]);
     }
 }

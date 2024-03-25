@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id');
+            $table->foreignUuid('transaction_id');
             $table->foreignId('package_id');
             $table->double('qty');
             $table->timestamps();

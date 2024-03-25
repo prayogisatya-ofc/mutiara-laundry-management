@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class TransactionController extends Controller
 {
@@ -18,7 +19,10 @@ class TransactionController extends Controller
         $data = Transaction::query();
 
         if ($start && $end) {
-            $data->whereBetween('created_at', [$start, $end]);
+            $startDate = Carbon::parse($start)->startOfDay();
+            $endDate = Carbon::parse($end)->endOfDay();
+
+            $data->whereBetween('created_at', [$startDate, $endDate]);
         }
 
         if ($search) {
@@ -37,6 +41,8 @@ class TransactionController extends Controller
     }
 
     public function edit(Transaction $transaction) {
+        $transaction->date_taken_formated = Carbon::parse($transaction->date_taken)->format('d/m/Y');
+
         return view('transactions.edit', [
             'title' => '#'.$transaction->invoice,
             'transaction' => $transaction
@@ -83,6 +89,14 @@ class TransactionController extends Controller
             'start' => $start,
             'end' => $end,
             'total' => $total
+        ]);
+    }
+
+    public function print_single(Transaction $transaction) {
+        $transaction->date_taken_formated = Carbon::parse($transaction->date_taken)->format('d/m/Y');
+        
+        return view('transactions.print-single', [
+            'data' => $transaction
         ]);
     }
 }

@@ -52,7 +52,7 @@
                     <td class="text-center">{{ $loop->index + 1 }}</td>
                     <td>#{{ $d->invoice }}</td>
                     <td>{{ $d->member->name }}</td>
-                    <td class="text-center">{{ $d->created_at->format('d-m-Y') }}</td>
+                    <td class="text-center">{{ $d->created_at->format('d/m/Y') }}</td>
                     @php($status = [
                         'process' => ['text' => 'Proses'],
                         'done' => ['text' => 'Selesai'],

@@ -45,7 +45,11 @@ Route::middleware('auth')->group(function(){
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transaction_destroy');
     Route::get('/transactions/{transaction}', [TransactionController::class, 'edit'])->name('transaction_edit');
     Route::post('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transaction_update');
+    Route::get('/transactions/print/{transaction}', [TransactionController::class, 'print_single'])->name('transaction_print_single');
 
     Route::get('/cashier', [CashierController::class, 'index'])->name('cashier_list');
     Route::get('/cashier/get-packages', [CashierController::class, 'get_packages'])->name('cashier_get_packages');
+    Route::get('/cashier/get-members', [CashierController::class, 'get_members'])->name('cashier_get_members');
+    Route::post('/cashier/add-member', [CashierController::class, 'add_member'])->name('cashier_add_member');
+    Route::post('/cashier/checkout', [CashierController::class, 'checkout'])->name('cashier_checkout');
 });

@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $guarded = ['id'];
+    protected $dates = ['date_taken'];
 
     public function member(){
         return $this->belongsTo(Member::class);
@@ -17,13 +20,6 @@ class Transaction extends Model
 
     public function detail_transactions(){
         return $this->hasMany(DetailTransaction::class);
-    }
-
-    public static function generateInvoiceNumber() {
-        $randomDigits = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-        $date = now();
-        $invoiceNumber = $randomDigits . $date->format('dmY');
-        return $invoiceNumber;
     }
 
     public function getTotal() {
