@@ -27,7 +27,7 @@
                     <p class="text-muted mb-1">Tagihan Kepada</p>
                     <b>{{ $data->member->name }}</b>
                     <b>{{ $data->member->address }}</b>
-                    <b>Telp : 62{{ $data->member->telp }}</b>
+                    <b>Telp : +62{{ $data->member->telp }}</b>
                 </div>
             </td>
             <td class="align-top">

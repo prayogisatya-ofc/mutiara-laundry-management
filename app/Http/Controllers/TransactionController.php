@@ -86,8 +86,8 @@ class TransactionController extends Controller
 
         return view('transactions.print-list', [
             'data' => $data,
-            'start' => $start,
-            'end' => $end,
+            'start' => Carbon::parse($start)->format('d/m/Y'),
+            'end' => Carbon::parse($end)->format('d/m/Y'),
             'total' => $total
         ]);
     }

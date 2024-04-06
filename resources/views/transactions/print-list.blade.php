@@ -26,11 +26,11 @@
         <table class="mt-4">
             <tr>
                 <td>Dari Tanggal</td>
-                <td class="ps-2">: {{ $start }}</td>
+                <td class="ps-2">: <span class="ps-2">{{ $start }}</span></td>
             </tr>
             <tr>
                 <td>Sampai Tanggal</td>
-                <td class="ps-2">: {{ $end }}</td>
+                <td class="ps-2">: <span class="ps-2">{{ $end }}</span></td>
             </tr>
         </table>
     @endif
