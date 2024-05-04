@@ -39,7 +39,7 @@ class AuthController extends Controller
         $today = Carbon::today();
 
         return view('dashboard', [
-            'title' => 'Dashboard',
+            'title' => 'Dashboard', 
             'profit' => $profit,
             'transaction_done' => Transaction::where('status', 'done')->orWhere('status', 'taken')->count(),
             'transactions_process' => Transaction::where('status', 'process')->count(),

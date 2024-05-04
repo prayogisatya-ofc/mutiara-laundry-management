@@ -76,8 +76,8 @@
 
     <div class="float-end text-center">
         <p style="margin-bottom: 5rem">Dengan Hormat,</p>
-        <u>Mutiara Laundry</u>
-        <p class="mb-0">Pemilik Usaha</p>
+        <u>{{ Auth::user()->name }}</u>
+        <p class="mb-0">Kasir Bertugas</p>
     </div>
 
     
