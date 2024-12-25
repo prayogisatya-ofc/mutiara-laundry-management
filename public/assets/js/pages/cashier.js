@@ -65,7 +65,7 @@ Vue.createApp({
                 }
             })
 
-            await axios.get(`/cashier/get-packages?search=${this.search}`)
+            await axios.get(`/panel/cashier/get-packages?search=${this.search}`)
                 .then((result) => {
                     $.unblockUI();
                     this.packages = result.data
@@ -93,7 +93,7 @@ Vue.createApp({
                 }
             })
 
-            await axios.get(`/cashier/get-members?search=${this.searchMember}`)
+            await axios.get(`/panel/cashier/get-members?search=${this.searchMember}`)
                 .then((result) => {
                     $('#modalBodySearch').unblock()
                     this.members = result.data
@@ -122,23 +122,86 @@ Vue.createApp({
                     }
                 })
     
-                await axios.post('/cashier/checkout', this.form)
+                await axios.post('/panel/cashier/checkout', this.form)
                 .then(response => {
                     $.unblockUI();
+
+                    const { transaction, member_name, packages, total_amount } = response.data.data;
+
+                    let packageRows = '';
+                    packages.forEach(pkg => {
+                        packageRows += `
+                            <tr>
+                            <td>${pkg.name}</td>
+                            <td style="text-align: center;">${pkg.qty}</td>
+                            <td style="text-align: right;">Rp ${pkg.price.toLocaleString()}</td>
+                            <td style="text-align: right;">Rp ${pkg.subtotal.toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+
                     Swal.fire({
-                        icon: "success",
-                        html: response.data.message,
-                        timer: 2000,
-                        showConfirmButton: false,
-                    }).then(() => {
-                        location.reload()
-                    })
+                        title: '<strong>Mutiara Laundry</strong>',
+                        html: `
+                          <div id="print-area" style="text-align: left; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;">
+                            <div style="text-align: center; margin-bottom: 10px;">
+                              <p>Jl. Untung Suropati, Labuhan Dalam, Bandar Lampung</p>
+                              <p>${new Date(transaction.created_at).toLocaleString()}</p>
+                              <p>No. Invoice: ${transaction.invoice}</p>
+                              <p>Nama Pelanggan: ${member_name}</p>
+                            </div>
+                            <hr style="border-top: 1px dashed #ccc; margin: 10px 0;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                              <thead>
+                                <tr>
+                                  <th style="text-align: left;">Paket</th>
+                                  <th style="text-align: center;">Qty</th>
+                                  <th style="text-align: right;">Harga</th>
+                                  <th style="text-align: right;">Subtotal</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ${packageRows}
+                              </tbody>
+                            </table>
+                            <hr style="border-top: 1px dashed #ccc; margin: 10px 0;">
+                            <div style="display: flex; justify-content: space-between;">
+                              <span><strong>Total:</strong></span>
+                              <span><strong>Rp ${total_amount.toLocaleString()}</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                              <span>Bayar:</span>
+                              <span>Rp ${total_amount.toLocaleString()}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                              <span>Kembali:</span>
+                              <span>Rp 0</span>
+                            </div>
+                            <hr style="border-top: 1px dashed #ccc; margin: 10px 0;">
+                            <div style="text-align: center;">
+                              <p>Terima kasih sudah menggunakan layanan kami!</p>
+                              <p>=== Layanan Pelanggan ===</p>
+                            </div>
+                          </div>
+                        `,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        showCancelButton: true,
+                        confirmButtonText: 'Cetak Struk',
+                        cancelButtonText: 'Tutup',
+                        preConfirm: () => {
+                            this.printReceipt();
+                        },
+                        didClose: () => {
+                            location.reload();
+                        }
+                    });
                 })
                 .catch(error => {
                     $.unblockUI();
                     Swal.fire({
                         icon: "error",
-                        text: error.response.data.error,
+                        text: error,
                         timer: 2000,
                         showConfirmButton: false,
                     })
@@ -151,6 +214,15 @@ Vue.createApp({
                     showConfirmButton: false,
                 })
             }
+        },
+        printReceipt() {
+            const printContent = document.getElementById('print-area').innerHTML;
+            const originalContent = document.body.innerHTML;
+        
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload();
         },
         addMemberToCart(memberItem){
             this.form.member.id = memberItem.id
@@ -173,7 +245,7 @@ Vue.createApp({
                 }
             })
 
-            await axios.post('/cashier/add-member', this.formMember)
+            await axios.post('/panel/cashier/add-member', this.formMember)
             .then(response => {
                 $('#modalBodyAdd').unblock()
                 this.modalAdd.hide()

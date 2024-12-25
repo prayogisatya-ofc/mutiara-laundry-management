@@ -2,19 +2,24 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashierController;
+use App\Http\Controllers\FrontEnd\HomeController;
+use App\Http\Controllers\FrontEnd\TrackController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/cek-laundry', [TrackController::class, 'index'])->name('cek_laundry.index');
 
 Route::middleware('guest')->group(function(){
     Route::get('/auth/login', [AuthController::class, 'index'])->name('login_views');
     Route::post('/auth/login/logedin', [AuthController::class, 'logedin'])->name('login_handle');
 });
 
-Route::middleware('auth')->group(function(){
+Route::prefix('panel')->middleware('auth')->group(function(){
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('logout_handle');
 
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');

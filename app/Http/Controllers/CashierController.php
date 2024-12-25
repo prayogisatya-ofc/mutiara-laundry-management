@@ -88,17 +88,40 @@ class CashierController extends Controller
                 'date_taken' => Carbon::now()->addDays(3)
             ]);
 
+            $totalAmount = 0;
+            $packageDetails = [];
+
             foreach ($packages as $package) {
+                $price = $package['price'];
+                $qty = $package['qty'];
+                $subtotal = $price * $qty;
+                $totalAmount += $subtotal;
+
                 DetailTransaction::create([
                     'transaction_id' => $transaction->id,
                     'package_id' => $package['id'],
                     'qty' => $package['qty']
                 ]); 
+
+                $packageDetails[] = [
+                    'name' => $package['name'],
+                    'qty' => $qty,
+                    'price' => $price,
+                    'subtotal' => $subtotal
+                ];
             }
 
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => 'Pesanan berhasil dicheckout dengan nomor invoice <b>#'.$invoice.'</b>'], 200);
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'transaction' => $transaction,
+                    'member_name' => $member['name'],
+                    'packages' => $packageDetails,
+                    'total_amount' => $totalAmount,
+                ],
+            ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
 

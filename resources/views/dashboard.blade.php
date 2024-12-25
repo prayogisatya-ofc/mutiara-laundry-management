@@ -10,7 +10,7 @@
                     <p class="mb-4">
                         Permudah manajemen laundrymu dengan platform ini. Cek pesanan pelanggan dan pengahsilanmu sekarang.
                     </p>
-                    <a href="{{ route('transaction_list') }}" class="btn btn-sm btn-outline-primary">Kasir</a>
+                    <a href="{{ route('cashier_list') }}" target="_blank" class="btn btn-sm btn-outline-primary">Kasir</a>
                 </div>
             </div>
             <div class="col-sm-5 text-center text-sm-left">

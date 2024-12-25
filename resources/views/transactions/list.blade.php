@@ -34,7 +34,7 @@
                     </form>
                 </div>
                 <div class="col-lg-3">
-                    <button type="submit" class="btn btn-primary d-flex align-items-center float-start float-lg-end" onclick="location.href = '/transactions/print?start={{ $start }}&end={{ $end }}'">
+                    <button type="submit" class="btn btn-primary d-flex align-items-center float-start float-lg-end" onclick="location.href = '/panel/transactions/print?start={{ $start }}&end={{ $end }}'">
                         <i class="bx bx-printer me-2 ms-n1"></i>
                         <span>Cetak</span>
                     </button>
