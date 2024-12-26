@@ -16,7 +16,10 @@ class TrackController extends Controller
 
         if ($invoice) {
             $transaction = Transaction::where('invoice', $invoice)->first();
-            $transaction->date_taken_formated = Carbon::parse($transaction->date_taken)->format('d/m/Y');
+            
+            if ($transaction) {
+                $transaction->date_taken_formated = Carbon::parse($transaction->date_taken)->format('d/m/Y');
+            }
         }
 
         return view('track', [
